@@ -1,3 +1,0 @@
-/home/ryan/QueryEngineX/test/mode1/build/CMakeFiles/rebuild_cache.dir
-/home/ryan/QueryEngineX/test/mode1/build/CMakeFiles/edit_cache.dir
-/home/ryan/QueryEngineX/test/mode1/build/CMakeFiles/DebugMode.dir
