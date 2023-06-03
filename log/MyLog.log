@@ -1,0 +1,2 @@
+2023-06-01 12:00:50,781 sub1 [DEBUG] [Log.cc:97(test2)] This is a debug message. number = 100, str = hello, log4cpp
+

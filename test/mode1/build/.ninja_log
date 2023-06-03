@@ -1,0 +1,6 @@
+# ninja log v5
+0	318	1685765111652340252	CMakeFiles/DebugMode.dir/Configuration.cpp.o	9e10efa0279f8393
+0	833	1685765112162340092	CMakeFiles/DebugMode.dir/textMode1.cpp.o	3cd08da2ecbae350
+0	1279	1685765112612339947	CMakeFiles/DebugMode.dir/DicProducer.cpp.o	a1a6095ab69ae982
+0	1580	1685765112912339851	CMakeFiles/DebugMode.dir/SplitTool.cpp.o	5e4fb6da8a9ac847
+1580	1848	1685765113182339764	DebugMode	95f43ee36bfd081d

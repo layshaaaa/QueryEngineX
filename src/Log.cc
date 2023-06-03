@@ -87,7 +87,7 @@ Mylogger *Mylogger::getInstance() {
     }
     return _pMylooger;
 }
-
+#if 1
 void test2() {
     int number = 100;
     const char *pstr = "hello, log4cpp";
@@ -101,3 +101,5 @@ int main() {
     test2();
     log4cpp::Category::shutdown();
 }
+
+#endif
