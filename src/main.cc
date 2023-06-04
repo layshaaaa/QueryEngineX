@@ -12,17 +12,17 @@ void Ensplit()
 #if 1  //英文分词部分    
     EnSplitTool ensplit;
 
-    DictProducer dictproducer("/home/aphelions2023/search_engine/create_dictionary/corpus/");//corpus是语料库
+    DictProducer dictproducer("../data/en_corpus/");//en_corpus是语料库
     // dictproducer.show();
-    dictproducer.readStopFile("stop_words_eng.txt"); //停止文件是相对路径
+    dictproducer.readStopFile("../data/en_stop/stop_words_eng.txt"); //停止文件是相对路径
 
-    string store_frequency_path("word_frequency.conf"); //将词频写入该文件
+    string store_frequency_path("../data/dict/en_dict.dat"); //将词频写入该文件
     dictproducer.buildEnDict();
     dictproducer.write_frequency_file(store_frequency_path);
 
 
     dictproducer.buildEnIndex(store_frequency_path);
-    dictproducer.write_index_file("word_line.conf");//将索引库写入该文件
+    dictproducer.write_index_file("../data/dict/en_index.dat");//将索引库写入该文件
 #endif
 
 }
@@ -33,17 +33,17 @@ void Cnsplit()
     CnSplitTool cnsplit;
 
     //该路径是中文语料库
-    DictProducer dictproducer("/home/aphelions2023/search_engine/create_dictionary/cn_corpus/",&cnsplit);
+    DictProducer dictproducer("../data/cn_corpus/",&cnsplit);
     // dictproducer.show();
-    dictproducer.readStopFile("stop_words_cn.txt");//读停止文件
+    dictproducer.readStopFile("../data/cn_stop/stop_words_cn.txt");//读停止文件
     
-    string store_frequency_path("word_frequency_cn.conf");//将词频写入该文件
+    string store_frequency_path("../data/dict/cn_dict.dat");//将词频写入该文件
     dictproducer.buildCnDict();
     dictproducer.write_frequency_file(store_frequency_path);
 
 #if 1
     dictproducer.buildCnIndex(store_frequency_path);
-    dictproducer.write_index_file("word_index_cn.conf");//将索引库写入该文件
+    dictproducer.write_index_file("../data/dict/cn_index.dat");//将索引库写入该文件
 #endif
 }
 int main (int argc, char *argv[]) {
