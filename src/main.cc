@@ -1,5 +1,5 @@
-#include"DictProducer.hpp"
-#include"splitTool.hpp"
+#include"../include/DictProducer.h"
+#include"../include/splitTool.h"
 
 #include<ctime>
 #include<iostream>

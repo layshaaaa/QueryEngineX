@@ -1,5 +1,4 @@
-#include"splitTool.hpp"
-#include"Jieba.hpp"
+#include"../include/splitTool.h"
 #include<sstream>
 #include<iostream>
 
