@@ -38,3 +38,4 @@ public:
 private:
     unique_ptr<cppjieba::Jieba> _up;
 };
+//nihao
