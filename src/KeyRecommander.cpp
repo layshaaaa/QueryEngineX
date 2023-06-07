@@ -1,4 +1,4 @@
-#include"KeyRecommander.hpp"
+#include"../include/KeyRecommander.hpp"
 
 
 void KeyRecommander::change_word(string &query){
@@ -24,15 +24,25 @@ vector<string> KeyRecommander::get_result(){
 
         
 
+        if(length(_queryWord)*3!=_queryWord.size()){
+            auto it=yes.begin();
+            while(it!=yes.end()){
+                if(distance((*it).first,_queryWord)>3){
+                    it=yes.erase(it);
+                }else{
+                     ++it;
+                }
+            }
+        }
         
-        auto it=yes.begin();
+        /*auto it=yes.begin();
             while(it!=yes.end()){
                 if(distance((*it).first,_queryWord)>3){
                     it=yes.erase(it);
                 }else{
                     ++it;
                 }
-            }
+            }*/
         
 
 
@@ -49,7 +59,7 @@ vector<string> KeyRecommander::get_result(){
     }
     if(count<10){
         for(int x=0;x<10-count;x++){
-            result.push_back("无无无无无无无无无无");
+            result.push_back("未找到相似度高的词语");
         }
     }
     return result;

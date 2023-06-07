@@ -1,6 +1,6 @@
-#ifndef __y__
-#define __y__
-#include"Dictionary.hpp"
+#ifndef __KEY_RECOMMANDER__
+#define __KEY_RECOMMANDER__
+#include"../include/Dictionary.hpp"
 using std::shared_ptr;
 using std::multiset;
 
