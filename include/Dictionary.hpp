@@ -1,5 +1,5 @@
-#ifndef __x__
-#define __x__
+#ifndef __DICTIONARY__
+#define __DICTIONARY__
 #include<memory>
 #include<vector>
 #include<map>
@@ -7,6 +7,7 @@
 #include<iostream>
 #include<fstream>
 #include<sstream>
+#include"../include/EasyMysql.hpp"
 using std::cout;
 using std::endl;
 using std::ofstream;
@@ -39,8 +40,8 @@ public:
         }
     }
     void init(const string &dictpath_dic,const string &dictpath_ind);//通过词典文件路径初始化词典
-    vector<pair<string,int>>& getDict();//获取词典
-    map<string ,set<int>>& getIndexTable();//获取索引表
+    //vector<pair<string,int>>& getDict();//获取词典
+    //map<string ,set<int>>& getIndexTable();//获取索引表
     set<pair<string,int>> doQuery(string word);//执行查询,返回的set中，每个pair前面是包含查询子的词，后面是频率
 private:
     Dictionary();//单例模式构造函数私有化
@@ -48,8 +49,11 @@ private:
     Dictionary& operator=(const Dictionary)=delete;//单例模式禁止复制
 private:
     static Dictionary* _pDictionary;//静态单例对象指针
-    vector<pair<string,int>> _dict;
-    map<string,set<int>> _indexTable;
+    //vector<pair<string,int>> _dict;
+    //map<string,set<int>> _indexTable;
+    //--------------------------------------------------------
+    EasyMysql* _pMysql;
+    //------------------------------------------------------
     int _save;
 public:
 };
