@@ -147,8 +147,9 @@ vector<vector<string>> EasyMysql::read_from_mysql(const string &command)
     mysql_free_result(result);
     return tmp;
 }
+/* EasyMysql* EasyMysql::_pInstance = nullptr; */
 
-
+EasyMysql* EasyMysql::_pInstance=EasyMysql::getInstance("localhost","root","NAN819");
 #if 0  //测试main
 EasyMysql* EasyMysql::_pInstance=EasyMysql::getInstance("localhost","root","123");
 

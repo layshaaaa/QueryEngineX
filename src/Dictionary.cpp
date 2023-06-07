@@ -7,7 +7,7 @@ Dictionary* Dictionary::_pDictionary=Dictionary::createInstance();
 
 Dictionary::Dictionary()
     :_save(0)
-    ,_pMysql(EasyMysql::getInstance("localhost","root","gyx1999727"))
+    ,_pMysql(EasyMysql::getInstance("localhost","root","NAN819"))
 {
         //init("cnDict.txt","cnIndex.txt");
         //init("enDict.txt","enIndex.txt");

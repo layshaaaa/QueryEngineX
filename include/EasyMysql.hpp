@@ -1,3 +1,5 @@
+#ifndef __EASYMYSQL_HPP_
+#define __EASYMYSQL_HPP_
 #include<iostream>
 #include<mysql/mysql.h>
 
@@ -37,3 +39,4 @@ private:
 
     static EasyMysql* _pInstance;
 };
+#endif

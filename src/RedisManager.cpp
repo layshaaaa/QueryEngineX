@@ -1,4 +1,4 @@
-#include "RedisManager.hpp"
+#include "../include/RedisManager.hpp"
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -42,7 +42,7 @@ RedisManager& RedisManager::getInstance()
 std::string RedisManager::getData(int index, const std::string& key)
 {
     if (index < 0 || index >= poolSize_) {
-        return "Invalid index.";
+        return "";
     }
 
     redisContext* context = connections_[index];
@@ -61,7 +61,7 @@ std::string RedisManager::getData(int index, const std::string& key)
         } else {
             std::cerr << "Failed to get data from Redis." << std::endl;
         }
-        return "Data not found.";
+        return "";
     }
 }
 

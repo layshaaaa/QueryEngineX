@@ -233,7 +233,7 @@ void DictProducer::buildEnIndex()
 #endif
 void DictProducer::write_frequency_mysql(bool switchs)//true=写英文词典库，false=写中文词典库
 {
-    EasyMysql* easymysql=EasyMysql::getInstance("localhost","root","123");
+    EasyMysql* easymysql=EasyMysql::getInstance("localhost","root","NAN819");
 
     cout<<"build word-frequency dictionary"<<endl;
     if(switchs)
@@ -273,7 +273,7 @@ void DictProducer::write_frequency_mysql(bool switchs)//true=写英文词典库�
 
 void DictProducer::write_index_mysql(bool switchs)
 {
-    EasyMysql* easymysql=EasyMysql::getInstance("localhost","root","123");
+    EasyMysql* easymysql=EasyMysql::getInstance("localhost","root","NAN819");
 
     if(switchs)
     {
