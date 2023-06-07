@@ -1,4 +1,6 @@
 #include"../include/TimerManager.hpp"
+#include <fcntl.h>
+#include <cstring>
 
 TimerManager::TimerManager(int first_timeout,int timeout_gap)
 :_isRunning(false)
@@ -15,6 +17,7 @@ TimerManager::TimerManager(int first_timeout,int timeout_gap)
 
 void TimerManager::set_time(int first_timeout,int timeout_gap)
 {
+    //设置时间
     struct itimerspec value;
 
     value.it_value.tv_sec=first_timeout;
@@ -27,7 +30,7 @@ void TimerManager::set_time(int first_timeout,int timeout_gap)
     if(ret<0)
     {
         cout<<">>TimerManager::set_time failed"<<endl;
-        exit(1);
+        /* exit(1); */
     }
 }
 
@@ -41,14 +44,14 @@ void TimerManager::start()
     _isRunning=true;
     while(_isRunning)
     {
-        uint64_t one=1;
+        uint64_t one=0;
         int ret=read(_timerfd,&one,sizeof(one));
         if(ret!=sizeof(one))
         {
             cout<<">>TimerManager::start read failed"<<endl;
+            std::cerr << "Failed to read timerfd: " << strerror(errno) << std::endl;
             exit(1);
         }
-        cout<<"timerfd has ready"<<endl;
 #if 1
         for(auto &task:_wheelList)
         {

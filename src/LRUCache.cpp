@@ -24,25 +24,25 @@ LRUCache::~LRUCache()
 
 }
 
-json LRUCache::readRecord(const key &_key)
+Json LRUCache::readRecord(const key &_key)
 {
     /*map<key.it>::iterator*/auto it=_key_index.find(_key);
     if(it==_key_index.end())
     {
-        return json();
+        return Json();
     }
 
 
-    json &tmp=it->second->_cjson;//用tmp保存读到的json
+    Json &tmp=it->second->_cJson;//用tmp保存读到的Json
     
     /*****************更新最热数据************************/
     _result_list.splice(_result_list.begin(),_result_list,it->second);
     return tmp;
 }
 
-int LRUCache::addRecord(const key &_key,const json &_json)
+int LRUCache::addRecord(const key &_key,const Json &_Json)
 {
-    if(_key.size()==0 | _json.size()==0)
+    if(_key.size()==0 | _Json.size()==0)
     {
         //查询词为空，或者推荐词内容为空，都没必要插入
         return 0;//错误返回0
@@ -65,9 +65,9 @@ int LRUCache::addRecord(const key &_key,const json &_json)
     }
     
     //增加记录时，需要更新3个数据结构
-    _result_list.push_front(CacheNode(_key,_json));
+    _result_list.push_front(CacheNode(_key,_Json));
     _key_index.insert(make_pair(_key,_result_list.begin()));
-    _new_result_persec.push_front(CacheNode(_key,_json));
+    _new_result_persec.push_front(CacheNode(_key,_Json));
 
     _mutex.unlock();
 
@@ -93,12 +93,12 @@ void LRUCache::show()//测试函数
 {
     for(auto &elem:_result_list)
     {
-        cout<<elem._ckey<<":"<<elem._cjson<<endl;
+        cout<<elem._ckey<<":"<<elem._cJson<<endl;
     }
 
     for(auto &elem:_key_index)
     {
-        cout<<elem.first<<" CacheNode-> "<<elem.second->_ckey<<" "<<elem.second->_cjson<<endl;
+        cout<<elem.first<<" CacheNode-> "<<elem.second->_ckey<<" "<<elem.second->_cJson<<endl;
     }
 
     cout<<"************************\n"<<endl;
@@ -142,14 +142,14 @@ void LRUCache::write_to_cache1(LRUCache &cache1)//获得cache1
      {
          for(int i=0;i<2;++i)
          {
-            cache1.addRecord(it->_ckey,it->_cjson);
+            cache1.addRecord(it->_ckey,it->_cJson);
             ++it;
          }
      }
      else{
          for(int i=0;i<_result_list.size();++i)
          {
-             cache1.addRecord(it->_ckey,it->_cjson);
+             cache1.addRecord(it->_ckey,it->_cJson);
              ++it;
          }
      }
@@ -170,11 +170,11 @@ int LRUCache::getFromFile(const string& filename)
     while(std::getline(ifs,line))
     {
         istringstream iss(line);
-        string _key,_json;
+        string _key,_Json;
         iss>>_key;
-        iss>>_json;
+        iss>>_Json;
 
-        addRecord(_key,_json);
+        addRecord(_key,_Json);
     }
 
     return 0;
@@ -193,7 +193,7 @@ void LRUCache::write_to_File(const string &filename)
     ostringstream oss;
     for(auto &CacheNodes:_result_list)
     {
-        oss<<CacheNodes._ckey<<" "<<CacheNodes._cjson<<endl;
+        oss<<CacheNodes._ckey<<" "<<CacheNodes._cJson<<endl;
     }
 
     if(oss.str().size()!=0)

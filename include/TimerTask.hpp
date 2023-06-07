@@ -18,7 +18,6 @@ class MyTimerTask
 public:
     void process() override
     {
-        cout<<"                        MyTimerTask process for cache sync"<<endl;
         CacheManager* cache_manager=CacheManager::getInstance();
 
         cache_manager->periodicUpdateCaches();

@@ -10,19 +10,19 @@ using std::string;
 using std::list;
 using std::map;
 
-using json=string;
+using Json=string;
 using key=string;
 
 struct CacheNode
 {
-    CacheNode(const key &ckey,const json &cjson)
+    CacheNode(const key &ckey,const Json &cJson)
     :_ckey(ckey)
-    ,_cjson(cjson)
+    ,_cJson(cJson)
     {
 
     }
     key _ckey;
-    json _cjson;
+    Json _cJson;
 };
 
 class LRUCache
@@ -31,8 +31,8 @@ public:
     LRUCache(int capcity=10);
     ~LRUCache();
 
-    int addRecord(const key&,const json&);
-    json readRecord(const key&);
+    int addRecord(const key&,const Json&);
+    Json readRecord(const key&);
 
     void write_to_cache1(LRUCache &cache1);
     void sync_with_cache1(const LRUCache &cache);
