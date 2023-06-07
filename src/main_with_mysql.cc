@@ -20,11 +20,11 @@ void Ensplit()
 
     string store_frequency_path("../data/dict/en_dict.dat"); //将词频写入该文件
     dictproducer.buildEnDict();
-    // dictproducer.write_frequency_mysql(true);
+    dictproducer.write_frequency_mysql(true);
 
 
     dictproducer.buildEnIndex();
-    // dictproducer.write_index_mysql(true);//将索引库写入该文件
+    dictproducer.write_index_mysql(true);//将索引库写入该文件
 #endif
 
 }
@@ -41,7 +41,7 @@ void Cnsplit()
     
     string store_frequency_path("../data/dict/cn_dict.dat");//将词频写入该文件
     dictproducer.buildCnDict();
-    // dictproducer.write_frequency_mysql(false);
+    dictproducer.write_frequency_mysql(false);
 
 #if 1
     dictproducer.buildCnIndex(store_frequency_path);

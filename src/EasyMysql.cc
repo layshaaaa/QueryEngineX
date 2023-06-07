@@ -143,6 +143,8 @@ vector<vector<string>> EasyMysql::read_from_mysql(const string &command)
 
 		tmp.push_back(rows);
     }
+
+    mysql_free_result(result);
     return tmp;
 }
 

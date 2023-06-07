@@ -207,13 +207,25 @@ void DictProducer::buildEnDict()
 #if 1
 void DictProducer::buildEnIndex()
 {
-    int line_no=0;
-    for(auto &pairs:_word_frequency)
+    ifstream ifs("../data/dict/en_dict.dat");
+    if(!ifs.good())
     {
-        for(auto &ch:pairs.first)
+        cout<<">>DictProducer::buildEnDict open failed"<<endl;
+        exit(1);
+    }
+
+    string line;
+    int line_no=0;
+    while(std::getline(ifs,line))
+    {
+        istringstream iss(line);
+        string word;
+        iss>>word;
+
+        for(auto &ch:word)
         {
-            string tmp(1,ch);
-            _alpha_index[tmp].insert(line_no+1);
+            string ch_str(1,ch);
+            _alpha_index[ch_str].insert(line_no+1);
         }
         line_no++;
     }
@@ -238,6 +250,8 @@ void DictProducer::write_frequency_mysql(bool switchs)//true=写英文词典库�
                  easymysql->write_to_mysql(command);
              }
          }
+
+        cout<<"build en-word-frequency-dictionart finish"<<endl;
     }
     else{
          for(auto &pairs:_word_frequency)
@@ -253,8 +267,8 @@ void DictProducer::write_frequency_mysql(bool switchs)//true=写英文词典库�
              }
          }
 
+        cout<<"build cn-word-frequency-dictionart finish"<<endl;
     }
-        cout<<"build word-frequency-dictionart finish"<<endl;
 }
 
 void DictProducer::write_index_mysql(bool switchs)
@@ -269,7 +283,7 @@ void DictProducer::write_index_mysql(bool switchs)
              ostringstream oss;
              for(auto &line:pairs.second) //每个字母对应的行号
              {
-                oss<<line<<" "; 
+                oss<<line<<","; 
              }
              
              string str(oss.str());
@@ -288,7 +302,7 @@ void DictProducer::write_index_mysql(bool switchs)
              ostringstream oss;
              for(auto &line:pairs.second) //每个字母对应的行号
              {
-                oss<<line<<" "; 
+                oss<<line<<","; 
              }
              
              string str(oss.str());
