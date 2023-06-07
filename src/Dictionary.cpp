@@ -1,12 +1,12 @@
-#include"Dictionary.hpp"
+#include"../include/Dictionary.hpp"
 
 
 Dictionary* Dictionary::_pDictionary=Dictionary::createInstance();
 
 Dictionary::Dictionary()
     :_save(0){
-        init("cn_dict.dat","cn_index.dat");
-        init("en_dict.dat","en_index.dat");
+        init("../data/dict/cn_dict.dat","../data/dict/cn_index.dat");
+        init("../data/dict/en_dict.dat","../data/dict/en_index.dat");
     }
 
 void Dictionary::init(const string &dictpath_dic,const string &dictpath_ind)

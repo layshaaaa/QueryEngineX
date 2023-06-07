@@ -1,4 +1,4 @@
-#include"KeyRecommander.hpp"
+#include"../include/KeyRecommander.hpp"
 
 
 void KeyRecommander::change_word(string &query){
