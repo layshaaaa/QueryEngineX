@@ -1,7 +1,7 @@
 #include<vector>
 #include<string>
 #include<memory>
-#include"cppjieba/Jieba.hpp"
+#include"../../cppjieba/include/cppjieba/Jieba.hpp"
 
 using std::vector;
 using std::string;

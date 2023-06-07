@@ -54,11 +54,11 @@ void test0()
 	//B: abc
 }
 
-int main(void)
-{
-	test0();
-	return 0;
-}
+//int main(void)
+//{
+//	test0();
+//	return 0;
+//}
 
 size_t nBytesCode(const char ch)
 {

@@ -4,9 +4,9 @@
 using std::shared_ptr;
 using std::multiset;
 
-
 class TcpConnection;
 using TcpConnectionPtr=shared_ptr<TcpConnection>;
+
 class KeyRecommander
 {
 friend struct ComparePoint;
