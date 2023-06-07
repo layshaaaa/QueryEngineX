@@ -1,6 +1,6 @@
-#include"../include/DictProducer.h"
+#include"../include/DictProducer_with_mysql.hpp"
 #include"../include/splitTool.h"
-
+#include"../include/EasyMysql.hpp"
 
 #include<unistd.h>
 #include<dirent.h>
@@ -157,7 +157,6 @@ void DictProducer::readStopFile(const string &filepath)
             _stopfile.insert(word);
         }
     }
-    cout<<"sizeof _stopfile is : "<<_stopfile.size()<<endl;
 }
 
 
@@ -205,17 +204,18 @@ void DictProducer::buildEnDict()
     // }
 }
 
-void DictProducer::buildEnIndex(const string &dicfilepath)
+#if 1
+void DictProducer::buildEnIndex()
 {
-    ifstream ifs(dicfilepath);
+    ifstream ifs("../data/dict/en_dict.dat");
     if(!ifs.good())
     {
-        cout<<"DictProducer::buildEnDict open failed"<<endl;
+        cout<<">>DictProducer::buildEnDict open failed"<<endl;
         exit(1);
     }
-    
+
     string line;
-    int nums=0;//行号
+    int line_no=0;
     while(std::getline(ifs,line))
     {
         istringstream iss(line);
@@ -224,14 +224,98 @@ void DictProducer::buildEnIndex(const string &dicfilepath)
 
         for(auto &ch:word)
         {
-            if(isalpha(ch))
-            {
-                string alphas(1,ch);
-                _alpha_index[alphas].insert(nums+1);
-            }
+            string ch_str(1,ch);
+            _alpha_index[ch_str].insert(line_no+1);
         }
-        nums++;
+        line_no++;
     }
+}
+#endif
+void DictProducer::write_frequency_mysql(bool switchs)//true=写英文词典库，false=写中文词典库
+{
+    EasyMysql* easymysql=EasyMysql::getInstance("localhost","root","123");
+
+    cout<<"build word-frequency dictionary"<<endl;
+    if(switchs)
+    {
+         for(auto &pairs:_word_frequency)
+         {
+             if(_stopfile.find(pairs.first)==_stopfile.end())
+             {
+                  char command[128]={0}; 
+                  char buf[16]={0};
+                  ::strcpy(buf,std::to_string(pairs.second).c_str());
+                  ::sprintf(command,"insert into en_dict (word,frequency) values ('%s',%s);",pairs.first.c_str(),buf);
+             
+                 easymysql->write_to_mysql(command);
+             }
+         }
+
+        cout<<"build en-word-frequency-dictionart finish"<<endl;
+    }
+    else{
+         for(auto &pairs:_word_frequency)
+         {
+             if(_stopfile.find(pairs.first)==_stopfile.end())
+             {
+                  char command[128]={0}; 
+                  char buf[16]={0};
+                  ::strcpy(buf,std::to_string(pairs.second).c_str());
+                  ::sprintf(command,"insert into cn_dict (word,frequency) values ('%s',%s);",pairs.first.c_str(),buf);
+             
+                 easymysql->write_to_mysql(command);
+             }
+         }
+
+        cout<<"build cn-word-frequency-dictionart finish"<<endl;
+    }
+}
+
+void DictProducer::write_index_mysql(bool switchs)
+{
+    EasyMysql* easymysql=EasyMysql::getInstance("localhost","root","123");
+
+    if(switchs)
+    {
+
+         for(auto &pairs:_alpha_index)
+         {
+             ostringstream oss;
+             for(auto &line:pairs.second) //每个字母对应的行号
+             {
+                oss<<line<<","; 
+             }
+             
+             string str(oss.str());
+
+             int len=pairs.first.size()+str.size();
+             char *command=new char[len+128]();
+
+             sprintf(command,"insert into en_index (alpha,word_line) values ('%s','%s');",pairs.first.c_str(),str.c_str());
+             easymysql->write_to_mysql(command);
+             delete []command;
+         }
+    }
+    else{
+         for(auto &pairs:_alpha_index)
+         {
+             ostringstream oss;
+             for(auto &line:pairs.second) //每个字母对应的行号
+             {
+                oss<<line<<","; 
+             }
+             
+             string str(oss.str());
+
+             int len=pairs.first.size()+str.size();
+             char *command=new char[len+128]();
+
+             sprintf(command,"insert into cn_index (hanzi,word_line) values ('%s','%s');",pairs.first.c_str(),str.c_str());
+             easymysql->write_to_mysql(command);
+             delete []command;
+         }
+    }
+    
 }
 
 std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
@@ -319,47 +403,5 @@ void DictProducer::buildCnIndex(const string &dicfilepath)//词库文件的位�
     }
 }
 
-void DictProducer::write_frequency_file(const string &filepath)
-{
-    ofstream ofs(filepath,std::ios_base::out);
-    if(!ofs.good())
-    {
-        cout<<"DictProducer::write_frequency_file open failed"<<endl;
-        exit(1);
-    }
-    for(auto &elem:_word_frequency) //elem是pair类型
-    {
-        ostringstream oss;
-        
-        if(_stopfile.find(elem.first)==_stopfile.end())
-        {
-            //elem是pair类型<string,int>
-            oss<<elem.first<<" "<<elem.second;    
-            ofs<<oss.str()<<endl;
-        }
-    }
 
-}
-
-void DictProducer::write_index_file(const string &filepath)
-{
-    ofstream ofs(filepath);
-    if(!ofs.good())
-    {
-        cout<<"DictProducer::write_line_file open failed"<<endl;
-        exit(1);
-    }
-    for(auto &pairs:_alpha_index)
-    {
-        ostringstream oss;
-        
-        oss<<string(pairs.first);
-
-        for(auto &line_no:pairs.second)
-        {
-            oss<<" "<<line_no;
-        }
-        ofs<<oss.str()<<endl;
-    }
-}
 

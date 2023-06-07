@@ -1,6 +1,8 @@
-#include"../include/DictProducer.h"
+#include"../include/DictProducer_with_mysql.hpp"
 #include"../include/splitTool.h"
+#include"../include/EasyMysql.hpp"
 
+#include<sys/time.h>
 #include<ctime>
 #include<iostream>
 
@@ -18,11 +20,11 @@ void Ensplit()
 
     string store_frequency_path("../data/dict/en_dict.dat"); //将词频写入该文件
     dictproducer.buildEnDict();
-    dictproducer.write_frequency_file(store_frequency_path);
+    dictproducer.write_frequency_mysql(true);
 
 
-    dictproducer.buildEnIndex(store_frequency_path);
-    dictproducer.write_index_file("../data/dict/en_index.dat");//将索引库写入该文件
+    dictproducer.buildEnIndex();
+    dictproducer.write_index_mysql(true);//将索引库写入该文件
 #endif
 
 }
@@ -39,21 +41,25 @@ void Cnsplit()
     
     string store_frequency_path("../data/dict/cn_dict.dat");//将词频写入该文件
     dictproducer.buildCnDict();
-    dictproducer.write_frequency_file(store_frequency_path);
+    dictproducer.write_frequency_mysql(false);
 
 #if 1
     dictproducer.buildCnIndex(store_frequency_path);
-    dictproducer.write_index_file("../data/dict/cn_index.dat");//将索引库写入该文件
+    dictproducer.write_index_mysql(false);
 #endif
 }
+
+EasyMysql* EasyMysql::_pInstance=getInstance("localhost","root","123");
 int main (int argc, char *argv[]) {
-    clock_t start=clock();
+    struct timeval start,end;
+    ::gettimeofday(&start,nullptr);
+
     Ensplit();//英文分词
     Cnsplit();//中文分词
 
-    clock_t end=clock();
+    ::gettimeofday(&end,nullptr);
 
-    double time=double(end-start)/CLOCKS_PER_SEC;
+    double time=end.tv_sec-start.tv_sec;
     cout<<"执行时间: "<<time<<"秒"<<endl;
     return 0;
 }
